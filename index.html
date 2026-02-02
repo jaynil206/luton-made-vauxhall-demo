@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luton Made: Vauxhall</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'luton-sky': '#d4e5ea',
+              'luton-sky-dark': '#b8d4dc',
+              'luton-teal': '#9ccdc1',
+              'luton-teal-dark': '#8bbcb0',
+              'luton-red': '#cc3333',
+              'luton-red-dark': '#a63025',
+              'luton-overlay': '#5e1b16',
+              'paper-white': '#fdfbf7',
+            },
+            fontFamily: {
+              sans: ['Broke Grotesk', 'sans-serif'],
+              serif: ['Broke Grotesk', 'sans-serif'],
+              mono: ['Broke Grotesk', 'sans-serif'],
+            },
+            boxShadow: {
+              'polaroid': '0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 12px 20px -4px rgba(0, 0, 0, 0.12)',
+              'lifted': '0 8px 24px -4px rgba(0, 0, 0, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.08)',
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      @font-face {
+        font-family: 'Broke Grotesk';
+        src: url('broke-grotesk-regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+      .perspective-1000 { perspective: 1000px; }
+      .transform-style-3d { transform-style: preserve-3d; }
+      .backface-hidden { backface-visibility: hidden; }
+      .rotate-y-180 { transform: rotateY(180deg); }
+      .flip-inner.is-flipped { transform: rotateY(180deg); }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      .page-section { display: none; }
+      .page-section.active { display: block; }
+      #overlay { display: none; }
+      #overlay.open { display: flex; }
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      .animate-fade-in { animation: fadeIn 0.3s ease-out; }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col relative bg-luton-sky text-gray-800 antialiased overflow-x-hidden selection:bg-luton-red selection:text-white font-sans">
+    <!-- Texture overlay -->
+    <div class="fixed inset-0 pointer-events-none opacity-[0.03] z-50 mix-blend-multiply" style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E&quot;);"></div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-40 bg-luton-sky/95 backdrop-blur-sm border-b border-gray-300/40 px-6 py-4 shadow-lifted">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+        <div id="nav-logo" class="flex items-center gap-2 cursor-pointer group" data-page="gallery" role="button" tabindex="0">
+          <div class="w-8 h-8 bg-luton-red rounded flex items-center justify-center text-white font-bold text-lg group-hover:rotate-12 transition-transform shadow-md">V</div>
+          <h1 class="text-xl md:text-2xl font-bold tracking-tight text-gray-900">LUTON MADE: <span class="text-luton-overlay">VAUXHALL</span></h1>
+        </div>
+        <ul class="flex flex-wrap justify-center gap-6 md:gap-8" id="nav-links">
+          <li><button type="button" class="nav-link text-sm md:text-base font-medium uppercase tracking-wider transition-colors hover:text-luton-red text-luton-red border-b-2 border-luton-red" data-page="gallery">Gallery</button></li>
+          <li><button type="button" class="nav-link text-sm md:text-base font-medium uppercase tracking-wider transition-colors hover:text-luton-red text-gray-700" data-page="process">Project Process</button></li>
+          <li><button type="button" class="nav-link text-sm md:text-base font-medium uppercase tracking-wider transition-colors hover:text-luton-red text-gray-700" data-page="contact">Contact Us</button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="flex-grow relative z-0">
+      <!-- Page: Gallery -->
+      <section id="page-gallery" class="page-section active">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div class="flex flex-col md:flex-row justify-between items-start mb-16 relative">
+            <div class="max-w-2xl z-10">
+              <div class="inline-block bg-luton-red text-white px-3 py-1 font-mono text-sm uppercase tracking-widest mb-4 shadow-lifted">Digital Exhibition Feb 2026</div>
+              <h2 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">The Story of a Town <br/> and its Cars.</h2>
+              <div class="bg-white p-6 border-2 border-luton-red rounded-lg max-w-xl shadow-lifted">
+                <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif">
+                  <span class="text-luton-red font-bold">Click on an object to learn more about the Vauxhall story.</span> This exhibition showcases the legacy of the Luton plant, connecting objects to the people who made them.
+                </p>
+              </div>
+            </div>
+            <div class="hidden md:flex absolute right-0 top-0 animate-[spin_20s_linear_infinite]">
+              <div class="w-48 h-48 rounded-full border-4 border-luton-red bg-luton-red text-white flex items-center justify-center relative shadow-lifted">
+                <div class="absolute inset-0 border-2 border-white/40 rounded-full m-2 border-dashed"></div>
+                <svg viewBox="0 0 100 100" class="w-full h-full absolute">
+                  <path id="curve" d="M 28, 50 a 22,22 0 1,1 44,0 a 22,22 0 1,1 -44,0" fill="none" />
+                  <!-- <text class="text-[10px] font-bold uppercase tracking-[0.2em] fill-white">
+                    <textPath href="#curve" startOffset="50%" textAnchor="middle">Luton Made • Vauxhall •</textPath>
+                  </text> -->
+                </svg>
+                <div class="text-center transform -rotate-12 text-white">
+                  <span class="block text-4xl font-black">1905</span>
+                  <span class="block text-xs uppercase tracking-widest">Est.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-auto gap-8 md:gap-12 pb-24"></div>
+        </div>
+      </section>
+
+      <!-- Page: Process -->
+      <section id="page-process" class="page-section">
+        <div class="max-w-5xl mx-auto px-6 py-20">
+          <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Project Process</h2>
+            <p class="text-xl max-w-2xl mx-auto text-gray-700">A 1-year journey documenting the industrial heritage of our town.</p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-4 shadow-lifted rotate-1">
+              <img src="https://picsum.photos/id/433/400/300" class="w-full h-48 object-cover mb-4 filter grayscale" alt="Meeting" />
+              <h4 class="font-bold uppercase text-sm text-gray-500 mb-2">Phase 1: Discovery</h4>
+              <p class="text-sm">Sifting through thousands of uncatalogued photographs found in the basement.</p>
+            </div>
+            <div class="bg-white p-4 shadow-lifted -rotate-1 mt-8">
+              <img src="https://picsum.photos/id/449/400/300" class="w-full h-48 object-cover mb-4 filter sepia" alt="Interviews" />
+              <h4 class="font-bold uppercase text-sm text-gray-500 mb-2">Phase 2: Voices</h4>
+              <p class="text-sm">"It was hard work, but we laughed every day." - Recording over 50 hours of interviews.</p>
+            </div>
+            <div class="bg-white p-4 shadow-lifted rotate-2">
+              <img src="https://picsum.photos/id/486/400/300" class="w-full h-48 object-cover mb-4" alt="Exhibition" />
+              <h4 class="font-bold uppercase text-sm text-gray-500 mb-2">Phase 3: Exhibition</h4>
+              <p class="text-sm">Curating the final artifacts for the pop-up space in the Mall.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Page: About (Get Involved) -->
+      <section id="page-about" class="page-section">
+        <div class="max-w-4xl mx-auto px-6 py-20">
+          <h2 class="text-4xl font-bold mb-12 border-b-4 border-luton-red inline-block pb-2">Get Involved</h2>
+          <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-paper-white p-8 shadow-lifted">
+              <h3 class="text-xl font-bold mb-4 text-luton-overlay">Archives & Resources</h3>
+              <ul class="space-y-3 list-disc pl-5 text-gray-700">
+                <li>Luton Cultural Services Trust</li>
+                <li>The Vauxhall Heritage Center</li>
+                <li>Bedfordshire Archives</li>
+                <li>National Motor Museum</li>
+              </ul>
+            </div>
+            <div class="bg-luton-red text-white p-8 shadow-lifted">
+              <h3 class="text-xl font-bold mb-4">Oral History Project</h3>
+              <p class="mb-4">We are actively recording interviews with former employees. If you worked at the plant between 1960 and 2002, please get in touch.</p>
+              <button type="button" id="btn-register-interest" class="bg-white text-luton-red px-4 py-2 font-bold uppercase text-sm">Register Interest</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Page: Contact -->
+      <section id="page-contact" class="page-section">
+        <div class="max-w-3xl mx-auto px-6 py-20 text-center">
+          <h2 class="text-4xl font-bold mb-8">Contact Us</h2>
+          <div class="bg-white p-12 shadow-lifted transform rotate-1 rounded-lg border border-gray-200">
+            <p class="text-xl mb-8">Have a story about the factory? We want to hear from you.</p>
+            <div class="space-y-4">
+              <a href="#" class="block bg-blue-600 text-white py-3 px-6 rounded font-bold hover:bg-blue-700">Facebook Community</a>
+              <a href="#" class="block bg-pink-600 text-white py-3 px-6 rounded font-bold hover:bg-pink-700">Instagram Archive</a>
+              <div class="mt-8 pt-8 border-t border-gray-200">
+                <p class="font-mono text-gray-500">EMAIL</p>
+                <a href="mailto:archive@lutonmade.co.uk" class="text-2xl font-bold text-luton-red hover:underline">archive@lutonmade.co.uk</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-luton-sky-dark/50 py-8 border-t border-gray-300/40 relative z-10">
+      <div class="max-w-7xl mx-auto px-6 text-center text-sm font-mono opacity-60">
+        <p>© 2026 LUTON HERITAGE TRUST. ALL RIGHTS RESERVED.</p>
+      </div>
+    </footer>
+
+    <!-- Topic overlay (hidden by default) -->
+    <div id="overlay" class="fixed inset-0 z-50 items-center justify-center p-4 md:p-8">
+      <div id="overlay-backdrop" class="absolute inset-0 bg-luton-sky/90 backdrop-blur-sm transition-opacity" aria-hidden="true"></div>
+      <div class="relative w-full max-w-5xl h-[90vh] bg-luton-overlay shadow-2xl flex flex-col md:flex-row overflow-hidden animate-fade-in">
+        <button type="button" id="overlay-close" class="absolute top-4 right-4 z-20 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition-colors" aria-label="Close">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+        <div class="w-full md:w-1/2 h-1/3 md:h-full bg-black relative">
+          <img id="overlay-image" src="" alt="" class="w-full h-full object-cover opacity-90" />
+          <div class="absolute inset-0 bg-gradient-to-t from-luton-overlay via-transparent to-transparent md:bg-gradient-to-r"></div>
+          <div class="absolute bottom-6 left-6 text-white z-10 hidden md:block">
+            <div id="overlay-item-id" class="inline-block border border-white/30 px-3 py-1 mb-2 font-mono text-xs uppercase tracking-widest">Exhibition Item #</div>
+            <h2 id="overlay-title-left" class="text-4xl font-bold font-serif leading-none mb-2"></h2>
+          </div>
+        </div>
+        <div class="w-full md:w-1/2 h-2/3 md:h-full overflow-y-auto p-8 md:p-12 text-white no-scrollbar">
+          <div class="md:hidden mb-6">
+            <h2 id="overlay-title-mobile" class="text-3xl font-bold font-serif mb-2"></h2>
+            <div class="h-1 w-20 bg-luton-red"></div>
+          </div>
+          <div class="flex items-center space-x-4 mb-8 text-sm font-mono text-white/60">
+            <span>TOPIC PAGES</span>
+            <span>/</span>
+            <span id="overlay-category" class="text-luton-red font-bold"></span>
+          </div>
+          <p id="overlay-description" class="text-xl md:text-2xl font-light leading-relaxed text-white/90 mb-8"></p>
+          <div class="bg-black/20 p-6 rounded-lg mb-8 border-l-4 border-luton-red">
+            <h4 class="text-sm uppercase tracking-widest font-bold mb-3 text-luton-red">Audio Archive</h4>
+            <div class="flex items-center gap-4">
+              <button type="button" class="w-10 h-10 flex items-center justify-center bg-white text-luton-overlay rounded-full hover:scale-110 transition-transform"><svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+              <div class="flex-1">
+                <div class="h-1 bg-white/20 rounded-full w-full"><div class="h-1 bg-luton-red w-1/3 rounded-full"></div></div>
+                <div class="flex justify-between text-[10px] mt-1 font-mono opacity-70"><span>00:45</span><span>03:20</span></div>
+              </div>
+            </div>
+            <p class="text-xs mt-3 italic opacity-70">"I remember the smell of the oil on the floor..." - John D., Line Worker 1974</p>
+          </div>
+          <p id="overlay-full-content" class="text-white/80 leading-loose"></p>
+          <p class="text-white/80 leading-loose mt-4">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+          <div class="grid grid-cols-2 gap-4 mt-8">
+            <div class="aspect-square bg-gray-800 rounded overflow-hidden"><img id="overlay-gallery-1" src="" class="w-full h-full object-cover opacity-70 hover:opacity-100 transition-opacity" alt="Gallery 1" /></div>
+            <div class="aspect-square bg-gray-800 rounded overflow-hidden"><img id="overlay-gallery-2" src="" class="w-full h-full object-cover opacity-70 hover:opacity-100 transition-opacity" alt="Gallery 2" /></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
