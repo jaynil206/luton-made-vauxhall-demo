@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Courier New';
+  src: url('../fonts/Courier New.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- global ---------- */
+.page-section { display: none; }
+.page-section.active { display: block; }
+#overlay { display: none; }
+#overlay.open { display: flex; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.animate-fade-in { animation: fadeIn 0.3s ease-out; }
+
+/* ---------- bento grid ---------- */
+.collage {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px;
+  position: relative;
+}
+@media (max-width: 1023px) { .collage { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; } }
+@media (max-width: 639px)  { .collage { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; } }
+
+.tile {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  transition: z-index 0s 0.3s;
+}
+.tile:hover { z-index: 30; transition: z-index 0s; }
+.tile:hover .tile-inner,
+.tile.is-active .tile-inner { transform: scale(1.06); }
+.tile.is-active { z-index: 40; }
+.tile-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+
+.artifact {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 22px rgba(0,0,0,0.32)) drop-shadow(0 3px 6px rgba(0,0,0,0.18));
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Fallback panel shown when an artifact PNG is missing. */
+.artifact-fallback {
+  width: 100%; height: 100%;
+  background: #f7f1e0;
+  padding: 14px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  box-shadow: 0 12px 28px -8px rgba(0,0,0,0.28);
+  color: #2a2520;
+}
+.fallback-kicker { font-family: 'calder-lc', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #cc3333; }
+.fallback-title  { font-family: 'calder-dark-shadow', sans-serif; font-size: 1.25rem; line-height: 1; letter-spacing: 0.02em; }
+.fallback-meta   { font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.65; }

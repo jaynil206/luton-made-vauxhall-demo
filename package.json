@@ -1,0 +1,25 @@
+{
+  "name": "luton-made-exhibition",
+  "version": "1.0.0",
+  "description": "a simple html/js/css website for the exhibition 'Luton Made: Vauxhall'.",
+  "main": "app.js",
+  "scripts": {
+    "build": "tailwindcss -i src/input.css -o output.css --minify",
+    "watch": "tailwindcss -i src/input.css -o output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaynil206/luton-made-vauxhall-demo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jaynil206/luton-made-vauxhall-demo/issues"
+  },
+  "homepage": "https://github.com/jaynil206/luton-made-vauxhall-demo#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}
