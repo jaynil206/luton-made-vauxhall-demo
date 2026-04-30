@@ -17,6 +17,23 @@
     return node;
   }
 
+  // Split a long flat string into readable paragraphs by finding the next
+  // sentence boundary after a target length. Keeps short text as one paragraph.
+  function paragraphize(text) {
+    if (!text) return [];
+    var paragraphs = [];
+    var remaining = String(text).trim();
+    var minLen = 350;
+    while (remaining.length > minLen + 80) {
+      var idx = remaining.indexOf('. ', minLen);
+      if (idx === -1) break;
+      paragraphs.push(remaining.slice(0, idx + 1).trim());
+      remaining = remaining.slice(idx + 2).trim();
+    }
+    if (remaining) paragraphs.push(remaining);
+    return paragraphs;
+  }
+
   // ------------------------------ tile rendering ------------------------------
   // Artifacts are already framed (polaroid borders, torn newspaper edges,
   // ID-badge lamination, etc.) in the source PNG. Each tile sits in a single
@@ -56,14 +73,123 @@
     });
   }
 
+  // ------------------------------ audio playback ------------------------------
+  // Pre-generated narration files (e.g. ElevenLabs) referenced via topic.audio.
+  // The player bar only appears on topics that have an audio file set.
+  var audioEl = null;
+
+  function formatTime(seconds) {
+    if (!isFinite(seconds) || seconds < 0) seconds = 0;
+    var m = Math.floor(seconds / 60);
+    var s = Math.floor(seconds % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function updatePlayPauseIcon(playing) {
+    var btn = document.getElementById('overlay-audio');
+    if (!btn) return;
+    btn.querySelector('.audio-icon-play').classList.toggle('hidden', playing);
+    btn.querySelector('.audio-icon-pause').classList.toggle('hidden', !playing);
+    btn.setAttribute('aria-label', playing ? 'Pause narration' : 'Play narration');
+  }
+
+  function updateProgressUI(current, duration) {
+    var pct = duration > 0 ? (current / duration) * 100 : 0;
+    var fill = document.getElementById('audio-progress-fill');
+    var thumb = document.getElementById('audio-progress-thumb');
+    if (fill) fill.style.width = pct + '%';
+    if (thumb) thumb.style.left = pct + '%';
+    var cur = document.getElementById('audio-time-current');
+    var tot = document.getElementById('audio-time-total');
+    if (cur) cur.textContent = formatTime(current);
+    if (tot) tot.textContent = formatTime(duration);
+  }
+
+  function ensureAudioEl() {
+    if (audioEl) return audioEl;
+    audioEl = new Audio();
+    audioEl.preload = 'metadata';
+    audioEl.addEventListener('play',          function () { updatePlayPauseIcon(true); });
+    audioEl.addEventListener('pause',         function () { updatePlayPauseIcon(false); });
+    audioEl.addEventListener('ended',         function () { updatePlayPauseIcon(false); audioEl.currentTime = 0; updateProgressUI(0, audioEl.duration || 0); });
+    audioEl.addEventListener('error',         function () { updatePlayPauseIcon(false); });
+    audioEl.addEventListener('loadedmetadata',function () { updateProgressUI(audioEl.currentTime, audioEl.duration); });
+    audioEl.addEventListener('timeupdate',    function () { updateProgressUI(audioEl.currentTime, audioEl.duration); });
+    return audioEl;
+  }
+
+  function stopAudio() {
+    if (audioEl) {
+      audioEl.pause();
+      audioEl.currentTime = 0;
+    }
+    updatePlayPauseIcon(false);
+    updateProgressUI(0, audioEl ? (audioEl.duration || 0) : 0);
+  }
+
+  function loadTopicAudio(topic) {
+    var player = document.getElementById('overlay-audio-player');
+    var hasAudio = !!(topic && topic.audio);
+    if (player) {
+      player.classList.toggle('hidden', !hasAudio);
+      player.classList.toggle('flex', hasAudio);
+    }
+    if (!hasAudio) {
+      stopAudio();
+      return;
+    }
+    var a = ensureAudioEl();
+    if (!a.src.endsWith(topic.audio)) {
+      a.src = topic.audio;
+    }
+    a.pause();
+    a.currentTime = 0;
+    updatePlayPauseIcon(false);
+    updateProgressUI(0, a.duration || 0);
+  }
+
+  function toggleAudio() {
+    var a = ensureAudioEl();
+    if (!a.src) return;
+    if (a.paused) {
+      var p = a.play();
+      if (p && typeof p.catch === 'function') p.catch(function () {});
+    } else {
+      a.pause();
+    }
+  }
+
+  function seekFromEvent(e) {
+    if (!audioEl || !audioEl.duration) return;
+    var track = document.getElementById('audio-progress-track');
+    if (!track) return;
+    var rect = track.getBoundingClientRect();
+    var x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    var pct = Math.max(0, Math.min(1, x / rect.width));
+    audioEl.currentTime = pct * audioEl.duration;
+    updateProgressUI(audioEl.currentTime, audioEl.duration);
+  }
+
   // ------------------------------ overlay ------------------------------
   var currentTopicIndex = -1;
 
   function populateOverlay(topic, index) {
-    document.getElementById('overlay-image').src = topic.image;
-    document.getElementById('overlay-image').alt = topic.title;
+    var galleryEl = document.getElementById('overlay-gallery');
+    var images = (topic.gallery && topic.gallery.length) ? topic.gallery : [topic.image];
+    galleryEl.innerHTML = images.map(function (src, i) {
+      return '<img src="' + escapeHtml(src) + '" alt="' + escapeHtml(topic.title + ' — image ' + (i + 1)) + '" class="snap-start shrink-0 h-72 md:h-96 w-auto" loading="lazy" decoding="async" />';
+    }).join('');
+    galleryEl.scrollLeft = 0;
+
     document.getElementById('overlay-title').textContent = topic.title;
-    document.getElementById('overlay-description').textContent = topic.caption;
+    document.getElementById('overlay-caption').textContent = topic.caption || '';
+    var descEl = document.getElementById('overlay-description');
+    var bodyText = topic.description || topic.caption;
+    descEl.innerHTML = paragraphize(bodyText).map(function (p) {
+      return '<p>' + escapeHtml(p) + '</p>';
+    }).join('');
+
+    loadTopicAudio(topic);
     document.getElementById('overlay-counter').textContent = (index + 1) + ' / ' + TOPICS.length;
     // Scroll the modal content back to the top when navigating.
     var card = document.querySelector('#overlay .overflow-y-auto');
@@ -79,6 +205,7 @@
   function closeOverlay() {
     document.getElementById('overlay').classList.remove('open');
     currentTopicIndex = -1;
+    stopAudio();
   }
 
   function stepOverlay(direction) {
@@ -138,6 +265,14 @@
       var stepEl = e.target.closest('[data-step]');
       if (stepEl) stepOverlay(parseInt(stepEl.dataset.step, 10));
     });
+
+    var audioBtn = document.getElementById('overlay-audio');
+    if (audioBtn) audioBtn.addEventListener('click', toggleAudio);
+
+    var progressTrack = document.getElementById('audio-progress-track');
+    if (progressTrack) {
+      progressTrack.addEventListener('click', seekFromEvent);
+    }
   }
 
   if (document.readyState === 'loading') {

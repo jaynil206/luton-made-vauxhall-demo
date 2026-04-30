@@ -5,128 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Luton Made: Vauxhall</title>
     <link rel="stylesheet" href="https://use.typekit.net/uov8udm.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'luton-sky': '#b7d4da',
-              'luton-sky-dark': '#9fc4cc',
-              'luton-red': '#cc3333',
-              'luton-red-dark': '#a63025',
-              'luton-overlay': '#5e1b16',
-              'paper-white': '#f6f1e4',
-              'ink': '#1f1c19',
-            },
-            fontFamily: {
-              sans: ['"calder-lc"', 'sans-serif'],
-              display: ['"calder-dark-shadow"', 'sans-serif'],
-              mono: ['"Courier New"', 'ui-monospace', 'monospace'],
-            },
-            boxShadow: {
-              'polaroid': '0 4px 6px -1px rgba(0, 0, 0, 0.12), 0 14px 24px -6px rgba(0, 0, 0, 0.2)',
-              'lifted': '0 8px 24px -4px rgba(0, 0, 0, 0.18), 0 4px 12px -2px rgba(0, 0, 0, 0.12)',
-            }
-          },
-        },
-      }
-    </script>
-    <style>
-      @font-face {
-        font-family: 'Courier New';
-        src: url('fonts/Courier New.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      /* ---------- global ---------- */
-      .page-section { display: none; }
-      .page-section.active { display: block; }
-      #overlay { display: none; }
-      #overlay.open { display: flex; }
-      .no-scrollbar::-webkit-scrollbar { display: none; }
-      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-      .animate-fade-in { animation: fadeIn 0.3s ease-out; }
-
-      /* ---------- bento grid ---------- */
-      .collage {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 28px;
-        position: relative;
-      }
-      @media (max-width: 1023px) { .collage { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; } }
-      @media (max-width: 639px)  { .collage { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; } }
-
-      .tile {
-        position: relative;
-        aspect-ratio: 1 / 1;
-        cursor: pointer;
-        background: transparent;
-        border: 0;
-        padding: 0;
-        transition: z-index 0s 0.3s;
-      }
-      .tile:hover { z-index: 30; transition: z-index 0s; }
-      .tile:hover .tile-inner,
-      .tile.is-active .tile-inner { transform: scale(1.06); }
-      .tile.is-active { z-index: 40; }
-      .tile-inner {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 8px;
-        transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1);
-      }
-
-      .artifact {
-        max-width: 100%;
-        max-height: 100%;
-        width: auto;
-        height: auto;
-        object-fit: contain;
-        filter: drop-shadow(0 14px 22px rgba(0,0,0,0.32)) drop-shadow(0 3px 6px rgba(0,0,0,0.18));
-        user-select: none;
-        -webkit-user-drag: none;
-      }
-
-      /* Fallback panel shown when an artifact PNG is missing. */
-      .artifact-fallback {
-        width: 100%; height: 100%;
-        background: #f7f1e0;
-        padding: 14px;
-        display: flex; flex-direction: column; justify-content: space-between;
-        box-shadow: 0 12px 28px -8px rgba(0,0,0,0.28);
-        color: #2a2520;
-      }
-      .fallback-kicker { font-family: 'calder-lc', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #cc3333; }
-      .fallback-title { font-family: 'calder-dark-shadow', sans-serif; font-size: 1.25rem; line-height: 1; letter-spacing: 0.02em; }
-      .fallback-meta { font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.65; }
-    </style>
+    <link rel="stylesheet" href="output.css" />
   </head>
   <body class="min-h-screen flex flex-col relative bg-luton-sky text-ink antialiased overflow-x-hidden selection:bg-luton-red selection:text-white font-sans text-base leading-relaxed">
     <!-- Subtle paper texture -->
     <div class="fixed inset-0 pointer-events-none opacity-[0.04] z-50 mix-blend-multiply" style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E&quot;);"></div>
 
     <!-- Navigation -->
-    <nav class="sticky top-0 z-40 bg-luton-sky/95 backdrop-blur-sm border-b border-ink/20 px-6 py-4 overflow-x-auto no-scrollbar">
+    <nav class="sticky top-0 z-40 bg-luton-sky/95 backdrop-blur-sm border-b border-ink/20 px-8 py-4 overflow-x-auto no-scrollbar">
       <div class="max-w-7xl mx-auto">
         <!-- Mobile: logo centered, nav below. Desktop: single row, logo left, nav right. -->
         <div class="flex flex-col items-center gap-3 md:flex-row md:justify-between md:items-center md:gap-4">
           <div class="flex items-center gap-2 cursor-pointer" data-page="gallery" role="button" tabindex="0">
-            <img src="logos/Luton made vauxhall final logo.png" alt="Luton Made: Vauxhall" class="w-9 h-9" loading="lazy" decoding="async" />
+            <img src="logos/Luton made vauxhall final logo.webp" alt="Luton Made: Vauxhall" class="w-9 h-9" loading="lazy" decoding="async" />
             <h1 class="hidden md:block text-2xl md:text-3xl font-display tracking-wide text-ink">LUTON MADE: <span class="text-luton-red">VAUXHALL</span></h1>
           </div>
           <ul class="flex flex-nowrap items-center justify-center gap-4 md:gap-6">
             <li class="hidden md:block"><button type="button" class="nav-link font-display text-sm md:text-base uppercase tracking-widest whitespace-nowrap transition-colors hover:text-luton-red text-luton-red border-b-2 border-luton-red" data-page="gallery">Home</button></li>
-            <li aria-hidden="true" class="hidden sm:block"><img src="stickers/stickers-07.png" alt="" class="h-6 w-auto pointer-events-none opacity-80" loading="lazy" decoding="async" /></li>
+            <li aria-hidden="true" class="hidden sm:block"><img src="stickers/stickers-07.webp" alt="" class="h-6 w-auto pointer-events-none opacity-80" loading="lazy" decoding="async" /></li>
             <li><button type="button" class="nav-link font-display text-sm md:text-base uppercase tracking-widest whitespace-nowrap transition-colors hover:text-luton-red text-ink/80" data-page="about">Get Involved</button></li>
-            <li aria-hidden="true" class="hidden sm:block"><img src="stickers/stickers-13.png" alt="" class="h-6 w-auto pointer-events-none opacity-80" loading="lazy" decoding="async" /></li>
+            <li aria-hidden="true" class="hidden sm:block"><img src="stickers/stickers-13.webp" alt="" class="h-6 w-auto pointer-events-none opacity-80" loading="lazy" decoding="async" /></li>
             <li><button type="button" class="nav-link font-display text-sm md:text-base uppercase tracking-widest whitespace-nowrap transition-colors hover:text-luton-red text-ink/80" data-page="contact">Contact Us</button></li>
           </ul>
         </div>
@@ -136,7 +34,7 @@
     <main class="flex-grow relative z-0">
       <!-- Page: Gallery / Home -->
       <section id="page-gallery" class="page-section active">
-        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 pt-10 pb-24">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-24">
           <!-- Hero -->
           <div class="flex flex-col md:flex-row justify-between items-start gap-8 mb-10 md:mb-14 relative">
             <div class="max-w-xl z-10">
@@ -150,7 +48,7 @@
               </div>
             </div>
             <div class="shrink-0 self-start md:mr-4 hidden sm:block">
-              <img src="logos/Luton made vauxhall final logo.png" alt="Luton Made: Vauxhall stamp" class="w-32 h-32 md:w-44 md:h-44 drop-shadow-xl" loading="lazy" decoding="async" />
+              <img src="logos/Luton made vauxhall final logo.webp" alt="Luton Made: Vauxhall stamp" class="w-32 h-32 md:w-44 md:h-44 drop-shadow-xl" loading="lazy" decoding="async" />
             </div>
           </div>
 
@@ -231,9 +129,9 @@
     <footer class="bg-luton-sky-dark/50 py-10 border-t border-ink/15 relative z-10">
       <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="flex items-center gap-6 flex-wrap justify-center">
-          <img src="logos/Luton made vauxhall final logo.png" alt="Luton Made: Vauxhall" class="h-14" loading="lazy" decoding="async" />
-          <img src="logos/heritage.png" alt="National Lottery Heritage Fund" class="h-14" loading="lazy" decoding="async" />
-          <img src="logos/The-Culture-Trust-Logo.png" alt="The Culture Trust" class="h-10" loading="lazy" decoding="async" />
+          <img src="logos/Luton made vauxhall final logo.webp" alt="Luton Made: Vauxhall" class="h-14" loading="lazy" decoding="async" />
+          <img src="logos/heritage.webp" alt="National Lottery Heritage Fund" class="h-14" loading="lazy" decoding="async" />
+          <img src="logos/The-Culture-Trust-Logo.webp" alt="The Culture Trust" class="h-10" loading="lazy" decoding="async" />
           <img src="logos/Luton.webp" alt="Luton Council" class="h-10" loading="lazy" decoding="async" />
         </div>
         <p class="text-xs font-sans opacity-60 uppercase tracking-wider">© 2026 Luton Heritage Trust</p>
@@ -241,10 +139,10 @@
     </footer>
 
     <!-- Topic overlay (hidden by default) -->
-    <div id="overlay" class="fixed inset-0 z-50 items-center justify-center p-0 md:p-8">
+    <div id="overlay" class="fixed inset-0 z-50 items-center justify-center p-0 md:p-12 lg:p-16">
       <div id="overlay-backdrop" class="absolute inset-0 bg-luton-sky/90 backdrop-blur-sm" aria-hidden="true"></div>
 
-      <div class="relative flex flex-col md:flex-row md:items-center md:gap-6 w-full md:max-w-3xl h-full md:h-auto">
+      <div class="relative flex flex-col md:flex-row md:items-center md:gap-6 w-full md:max-w-5xl h-full md:h-auto">
 
         <!-- Desktop-only: prev button flanking left -->
         <button type="button" id="overlay-prev" data-step="-1" class="hidden md:flex shrink-0 w-11 h-11 items-center justify-center bg-luton-overlay hover:bg-luton-red text-white transition-colors shadow-lg" aria-label="Previous topic">
@@ -260,11 +158,32 @@
             <div class="flex justify-start mb-4 text-xs font-mono uppercase tracking-widest">
               <span id="overlay-counter" class="text-white"></span>
             </div>
-            <h2 id="overlay-title" class="font-display text-4xl md:text-5xl uppercase leading-tight tracking-wide mb-6"></h2>
-            <div class="mb-6 flex items-center justify-center bg-black/20 p-4">
-              <img id="overlay-image" src="" alt="" class="max-w-full max-h-[40vh] object-contain" />
+            <h2 id="overlay-title" class="font-display text-4xl md:text-5xl uppercase leading-tight tracking-wide mb-3"></h2>
+            <p id="overlay-caption" class="text-base md:text-lg text-white/70 italic mb-6"></p>
+
+            <!-- Audio player (only visible when topic has narration) -->
+            <div id="overlay-audio-player" class="hidden mb-8 items-center gap-4 bg-black/40 px-4 sm:px-8 py-5 rounded-md">
+              <button type="button" id="overlay-audio" class="shrink-0 w-12 h-12 rounded-full bg-white text-luton-overlay hover:scale-105 active:scale-95 transition-transform flex items-center justify-center shadow-lg" aria-label="Play narration">
+                <svg class="audio-icon-play w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="audio-icon-pause w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </button>
+              <div class="flex-1 flex flex-col gap-1.5 min-w-0">
+                <div class="flex items-center gap-3">
+                  <span class="text-xs font-sans text-white/80 uppercase tracking-wide truncate">Description</span>
+                </div>
+                <div id="audio-progress-track" class="relative h-1.5 bg-white/20 cursor-pointer rounded-full group">
+                  <div id="audio-progress-fill" class="absolute inset-y-0 left-0 bg-white rounded-full transition-[width] duration-100" style="width: 0%"></div>
+                  <div id="audio-progress-thumb" class="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity" style="left: 0%; transform: translate(-50%, -50%)"></div>
+                </div>
+                <div class="flex justify-between text-[11px] font-mono text-white/70">
+                  <span id="audio-time-current">0:00</span>
+                  <span id="audio-time-total">0:00</span>
+                </div>
+              </div>
             </div>
-            <p id="overlay-description" class="text-lg md:text-xl font-light leading-relaxed tracking-tight text-white/90"></p>
+
+            <div id="overlay-gallery" class="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth -mx-8 md:-mx-12 px-8 md:px-12 scroll-pl-8 md:scroll-pl-12 mb-8"></div>
+            <div id="overlay-description" class="text-base md:text-lg font-light leading-relaxed tracking-tight text-white/90 space-y-4"></div>
           </div>
         </div>
 
