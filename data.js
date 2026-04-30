@@ -101,9 +101,8 @@ const TOPICS = [
     id: "press-shop",
     title: "Press Shop",
     cover: "Press shop switch",
-    image: "images/press shop.webp",
+    image: "images/pressshop-images/Press shop machines A3.webp",
     gallery: [
-      "images/press shop.webp",
       "images/pressshop-images/Press shop machines A3.webp",
       "images/pressshop-images/men holding door a3.webp",
       "images/pressshop-images/press in a2.webp",
@@ -148,9 +147,8 @@ const TOPICS = [
     id: "trim-shop",
     title: "Trim Shop",
     cover: "Sewing machine",
-    image: "images/trim shop.webp",
+    image: "images/trimshop-images/name badge a2.webp",
     gallery: [
-      "images/trim shop.webp",
       "images/trimshop-images/name badge a2.webp",
       "images/trimshop-images/trim shop lady a1.webp",
       "images/trimshop-images/windscreen a3.webp",
@@ -264,9 +262,8 @@ const TOPICS = [
     id: "war",
     title: "War",
     cover: "Access pass",
-    image: "images/war.webp",
+    image: "images/war-images/bomb map a2.webp",
     gallery: [
-      "images/war.webp",
       "images/war-images/bomb map a2.webp",
       "images/war-images/churchhill a2.webp",
       "images/war-images/lady working a3.webp",

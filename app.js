@@ -170,6 +170,58 @@
     updateProgressUI(audioEl.currentTime, audioEl.duration);
   }
 
+  // ------------------------------ hash routing ------------------------------
+  // Hash schema:
+  //   /              → home (gallery)
+  //   /#about        → Get Involved page
+  //   /#contact      → Contact page
+  //   /#<topic-id>   → topic overlay (rendered on top of the gallery)
+  //
+  // Direct loads, sharing links, and browser back/forward all work without
+  // any server-side config since GitHub Pages happily serves the static
+  // index.html for the root path.
+  var PAGE_IDS = ['gallery', 'about', 'contact'];
+
+  function readHash() {
+    return (window.location.hash || '').replace(/^#\/?/, '');
+  }
+
+  function setHashRoute(hash, replace) {
+    var url = window.location.pathname + window.location.search + (hash ? '#' + hash : '');
+    if (replace) history.replaceState(null, '', url);
+    else         history.pushState(null, '', url);
+  }
+
+  // Apply whatever the URL says — used on page load and when the user
+  // navigates via browser back/forward (which fires hashchange).
+  function applyHashState() {
+    var hash = readHash();
+    var topic = hash ? (TOPICS.find(function (t) { return t.id === hash; }) || null) : null;
+    var overlayEl = document.getElementById('overlay');
+
+    if (topic) {
+      // A topic overlay sits on top of the gallery page.
+      showPage('gallery');
+      if (currentTopicIndex === -1 || TOPICS[currentTopicIndex].id !== topic.id) {
+        currentTopicIndex = TOPICS.indexOf(topic);
+        populateOverlay(topic, currentTopicIndex);
+        overlayEl.classList.add('open');
+      }
+      return;
+    }
+
+    // Not a topic — close any open overlay first.
+    if (currentTopicIndex !== -1) {
+      overlayEl.classList.remove('open');
+      currentTopicIndex = -1;
+      stopAudio();
+    }
+
+    // Pick the page to show (fall back to gallery for empty/unknown hashes).
+    var page = (PAGE_IDS.indexOf(hash) !== -1) ? hash : 'gallery';
+    showPage(page);
+  }
+
   // ------------------------------ overlay ------------------------------
   var currentTopicIndex = -1;
 
@@ -200,22 +252,40 @@
     currentTopicIndex = TOPICS.indexOf(topic);
     populateOverlay(topic, currentTopicIndex);
     document.getElementById('overlay').classList.add('open');
+    setHashRoute(topic.id, false); // push — back button closes the overlay
   }
 
   function closeOverlay() {
     document.getElementById('overlay').classList.remove('open');
     currentTopicIndex = -1;
     stopAudio();
+    setHashRoute('', true); // replace — clear hash without polluting history
   }
 
   function stepOverlay(direction) {
     if (currentTopicIndex === -1) return;
     currentTopicIndex = (currentTopicIndex + direction + TOPICS.length) % TOPICS.length;
-    populateOverlay(TOPICS[currentTopicIndex], currentTopicIndex);
+    var topic = TOPICS[currentTopicIndex];
+    populateOverlay(topic, currentTopicIndex);
+    setHashRoute(topic.id, true); // replace — keeps history clean while paging
+  }
+
+  function navigateToPage(pageId) {
+    if (currentTopicIndex !== -1) {
+      document.getElementById('overlay').classList.remove('open');
+      currentTopicIndex = -1;
+      stopAudio();
+    }
+    showPage(pageId);
+    setHashRoute(pageId === 'gallery' ? '' : pageId, false);
   }
 
   // ------------------------------ page switching ------------------------------
+  var currentPageId = 'gallery';
+
   function showPage(pageId) {
+    if (currentPageId === pageId) return;
+    currentPageId = pageId;
     document.querySelectorAll('.page-section').forEach(function (el) {
       el.classList.toggle('active', el.id === 'page-' + pageId);
     });
@@ -252,12 +322,12 @@
     document.querySelectorAll('[data-page]').forEach(function (el) {
       el.addEventListener('click', function () {
         var page = this.getAttribute('data-page');
-        if (page) showPage(page);
+        if (page) navigateToPage(page);
       });
     });
 
     var registerBtn = document.getElementById('btn-register-interest');
-    if (registerBtn) registerBtn.addEventListener('click', function () { showPage('contact'); });
+    if (registerBtn) registerBtn.addEventListener('click', function () { navigateToPage('contact'); });
 
     document.getElementById('overlay-close').addEventListener('click', closeOverlay);
     document.getElementById('overlay-backdrop').addEventListener('click', closeOverlay);
@@ -273,6 +343,11 @@
     if (progressTrack) {
       progressTrack.addEventListener('click', seekFromEvent);
     }
+
+    // Hash routing: open the right overlay/page for the current URL on load,
+    // and respond to back/forward navigation.
+    window.addEventListener('hashchange', applyHashState);
+    applyHashState();
   }
 
   if (document.readyState === 'loading') {
