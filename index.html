@@ -150,7 +150,7 @@
         </button>
 
         <!-- Card -->
-        <div class="relative flex-1 w-full max-h-[calc(100vh-72px)] md:max-h-[90vh] bg-luton-overlay shadow-2xl overflow-y-auto no-scrollbar animate-fade-in">
+        <div class="relative flex-1 w-full h-full md:h-auto md:max-h-[90vh] bg-luton-overlay shadow-2xl overflow-y-auto no-scrollbar animate-fade-in">
           <button type="button" id="overlay-close" class="sticky top-4 float-right mr-4 z-20 bg-white/10 hover:bg-white/20 text-white p-2 transition-colors" aria-label="Close">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
@@ -159,7 +159,7 @@
               <span id="overlay-counter" class="text-white"></span>
             </div>
             <h2 id="overlay-title" class="font-display text-4xl md:text-5xl uppercase leading-tight tracking-wide mb-3"></h2>
-            <p id="overlay-caption" class="text-base md:text-lg text-white/70 italic mb-6"></p>
+            <p id="overlay-caption" class="text-base md:text-lg text-white/70 italic mb-6 leading-tight"></p>
 
             <!-- Audio player (only visible when topic has narration) -->
             <div id="overlay-audio-player" class="hidden mb-8 items-center gap-4 bg-black/40 px-4 sm:px-8 py-5 rounded-md">
@@ -183,7 +183,7 @@
             </div>
 
             <div id="overlay-gallery" class="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth -mx-8 md:-mx-12 px-8 md:px-12 scroll-pl-8 md:scroll-pl-12 mb-8"></div>
-            <div id="overlay-description" class="text-base md:text-lg font-light leading-relaxed tracking-tight text-white/90 space-y-4"></div>
+            <div id="overlay-description" class="text-base md:text-lg font-light leading-relaxed tracking-tight text-white/90 space-y-4 pb-6"></div>
           </div>
         </div>
 
@@ -191,16 +191,6 @@
         <button type="button" id="overlay-next" data-step="1" class="hidden md:flex shrink-0 w-11 h-11 items-center justify-center bg-luton-overlay hover:bg-luton-red text-white transition-colors shadow-lg" aria-label="Next topic">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
         </button>
-
-        <!-- Mobile-only: prev/next as a full-width bottom bar -->
-        <div class="flex md:hidden w-full shrink-0">
-          <button type="button" data-step="-1" class="flex-1 h-14 flex items-center justify-center bg-luton-overlay hover:bg-luton-red text-white transition-colors" aria-label="Previous topic">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-          </button>
-          <button type="button" data-step="1" class="flex-1 h-14 flex items-center justify-center bg-luton-overlay hover:bg-luton-red text-white transition-colors" aria-label="Next topic">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-          </button>
-        </div>
 
       </div>
     </div>
