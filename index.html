@@ -6,8 +6,59 @@
     <title>Luton Made: Vauxhall</title>
     <link rel="stylesheet" href="https://use.typekit.net/uov8udm.css" />
     <link rel="stylesheet" href="output.css" />
+    <style>
+      html.locked body > *:not(#password-gate) { visibility: hidden; }
+      html.locked, html.locked body { overflow: hidden; }
+    </style>
+    <script>
+      if (localStorage.getItem('lm-auth') !== '1') {
+        document.documentElement.classList.add('locked');
+      }
+    </script>
   </head>
   <body class="min-h-screen flex flex-col relative bg-luton-sky text-ink antialiased overflow-x-hidden selection:bg-luton-red selection:text-white font-sans text-base leading-relaxed">
+    <!-- Password gate -->
+    <div id="password-gate" class="fixed inset-0 z-[100] bg-luton-sky flex items-center justify-center p-6" hidden>
+      <form id="password-form" class="w-full max-w-sm bg-paper-white border-2 border-luton-red shadow-lifted p-8 flex flex-col gap-5">
+        <div class="flex flex-col items-center gap-3">
+          <img src="logos/Luton made vauxhall final logo.webp" alt="Luton Made: Vauxhall" class="w-16 h-16" />
+          <h1 class="font-display text-2xl uppercase tracking-wide text-ink text-center">Luton Made: <span class="text-luton-red">Vauxhall</span></h1>
+        </div>
+        <label class="flex flex-col gap-2">
+          <span class="font-mono text-xs uppercase tracking-widest text-ink/70">Password</span>
+          <input type="password" id="password-input" autocomplete="current-password" autofocus class="border-2 border-ink/20 focus:border-luton-red outline-none px-3 py-2 bg-white font-sans text-base" />
+        </label>
+        <p id="password-error" class="text-sm text-luton-red font-sans hidden">Incorrect password.</p>
+        <button type="submit" class="bg-luton-red hover:bg-luton-red-dark text-white px-6 py-3 uppercase tracking-widest text-sm font-display shadow-lifted transition-colors">Enter</button>
+      </form>
+    </div>
+    <script>
+      (function () {
+        var gate = document.getElementById('password-gate');
+        var form = document.getElementById('password-form');
+        var input = document.getElementById('password-input');
+        var error = document.getElementById('password-error');
+        if (localStorage.getItem('lm-auth') === '1') {
+          gate.remove();
+          return;
+        }
+        gate.hidden = false;
+        input.focus();
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (input.value === 'lutonmade2026') {
+            localStorage.setItem('lm-auth', '1');
+            document.documentElement.classList.remove('locked');
+            gate.remove();
+          } else {
+            error.hidden = false;
+            error.classList.remove('hidden');
+            input.value = '';
+            input.focus();
+          }
+        });
+      })();
+    </script>
     <!-- Subtle paper texture -->
     <div class="fixed inset-0 pointer-events-none opacity-[0.04] z-50 mix-blend-multiply" style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E&quot;);"></div>
 
