@@ -180,7 +180,7 @@
   // Direct loads, sharing links, and browser back/forward all work without
   // any server-side config since GitHub Pages happily serves the static
   // index.html for the root path.
-  var PAGE_IDS = ['gallery', 'about', 'contact'];
+  var PAGE_IDS = ['gallery', 'about', 'exhibition'];
 
   function readHash() {
     return (window.location.hash || '').replace(/^#\/?/, '');
@@ -229,7 +229,11 @@
     var galleryEl = document.getElementById('overlay-gallery');
     var images = (topic.gallery && topic.gallery.length) ? topic.gallery : [topic.image];
     galleryEl.innerHTML = images.map(function (src, i) {
-      return '<img src="' + escapeHtml(src) + '" alt="' + escapeHtml(topic.title + ' — image ' + (i + 1)) + '" class="snap-start shrink-0 h-72 md:h-96 w-auto" loading="lazy" decoding="async" />';
+      var credit = topic.credits && topic.credits[src];
+      return '<figure class="snap-start shrink-0 flex flex-col gap-1 m-0">' +
+        '<img src="' + escapeHtml(src) + '" alt="' + escapeHtml(topic.title + ' — image ' + (i + 1)) + '" class="h-72 md:h-96 w-auto block" loading="lazy" decoding="async" />' +
+        (credit ? '<figcaption class="text-xs font-mono text-white/40 px-1">' + escapeHtml(credit) + '</figcaption>' : '') +
+        '</figure>';
     }).join('');
     galleryEl.scrollLeft = 0;
 
@@ -299,6 +303,26 @@
     window.scrollTo({ top: 0, behavior: 'auto' });
   }
 
+  // ------------------------------ oral histories ------------------------------
+  function renderOralHistories() {
+    var container = document.getElementById('oral-histories-container');
+    if (!container || typeof ORAL_HISTORIES === 'undefined') return;
+    container.innerHTML = ORAL_HISTORIES.map(function (section) {
+      var clipsHtml = section.clips.length
+        ? section.clips.map(function (clip) {
+            return '<div class="flex flex-col gap-1">' +
+              '<p class="text-sm font-sans text-ink/80">' + escapeHtml(clip.title) + '</p>' +
+              '<audio controls src="' + escapeHtml(clip.src) + '" class="w-full h-10" preload="metadata"></audio>' +
+            '</div>';
+          }).join('')
+        : '<p class="text-sm font-sans text-ink/50 italic">Coming soon</p>';
+      return '<div class="flex flex-col gap-3">' +
+        '<h3 class="font-display text-xl uppercase tracking-wide text-ink border-b border-ink/20 pb-1">' + escapeHtml(section.title) + '</h3>' +
+        clipsHtml +
+        '</div>';
+    }).join('');
+  }
+
   // ------------------------------ init ------------------------------
   function init() {
     var galleryGrid = document.getElementById('gallery-grid');
@@ -326,8 +350,8 @@
       });
     });
 
-    var registerBtn = document.getElementById('btn-register-interest');
-    if (registerBtn) registerBtn.addEventListener('click', function () { navigateToPage('contact'); });
+    // renderOralHistories populates the Exhibition page's oral history sections
+    renderOralHistories();
 
     document.getElementById('overlay-close').addEventListener('click', closeOverlay);
     document.getElementById('overlay-backdrop').addEventListener('click', closeOverlay);
