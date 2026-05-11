@@ -307,20 +307,53 @@
   function renderOralHistories() {
     var container = document.getElementById('oral-histories-container');
     if (!container || typeof ORAL_HISTORIES === 'undefined') return;
-    container.innerHTML = ORAL_HISTORIES.map(function (section) {
-      var clipsHtml = section.clips.length
-        ? section.clips.map(function (clip) {
-            return '<div class="flex flex-col gap-1">' +
-              '<p class="text-sm font-sans text-ink/80">' + escapeHtml(clip.title) + '</p>' +
-              '<audio controls src="' + escapeHtml(clip.src) + '" class="w-full h-10" preload="metadata"></audio>' +
-            '</div>';
-          }).join('')
-        : '<p class="text-sm font-sans text-ink/50 italic">Coming soon</p>';
-      return '<div class="flex flex-col gap-3">' +
-        '<h3 class="font-display text-xl uppercase tracking-wide text-ink border-b border-ink/20 pb-1">' + escapeHtml(section.title) + '</h3>' +
-        clipsHtml +
-        '</div>';
-    }).join('');
+    container.innerHTML = '';
+
+    ORAL_HISTORIES.forEach(function (section) {
+      var wrap = el('div', '');
+      var heading = el('h4', 'font-display text-lg uppercase tracking-wide mb-3 text-ink', escapeHtml(section.title));
+      wrap.appendChild(heading);
+
+      if (!section.clips.length) {
+        wrap.appendChild(el('p', 'text-sm font-sans text-ink/50 italic', 'Coming soon'));
+        container.appendChild(wrap);
+        return;
+      }
+
+      // Tab row
+      var tabRow = el('div', 'flex flex-wrap gap-2 mb-4');
+      var tabs = section.clips.map(function (clip, i) {
+        var btn = el('button', 'font-display text-xs uppercase tracking-widest px-4 py-2 transition-colors ' + (i === 0 ? 'bg-ink text-white' : 'border-2 border-ink text-ink hover:bg-ink/10'), escapeHtml(clip.title));
+        btn.type = 'button';
+        btn.dataset.src = clip.src;
+        tabRow.appendChild(btn);
+        return btn;
+      });
+      wrap.appendChild(tabRow);
+
+      // Single player for this section
+      var player = document.createElement('audio');
+      player.controls = true;
+      player.preload = 'metadata';
+      player.src = section.clips[0].src;
+      player.className = 'w-full';
+      wrap.appendChild(player);
+
+      // Tab click handler
+      tabs.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          tabs.forEach(function (b) {
+            b.className = 'font-display text-xs uppercase tracking-widest px-4 py-2 transition-colors border-2 border-ink text-ink hover:bg-ink/10';
+          });
+          btn.className = 'font-display text-xs uppercase tracking-widest px-4 py-2 transition-colors bg-ink text-white';
+          player.src = btn.dataset.src;
+          player.currentTime = 0;
+          player.play();
+        });
+      });
+
+      container.appendChild(wrap);
+    });
   }
 
   // ------------------------------ init ------------------------------
