@@ -321,7 +321,7 @@
       }
 
       // Tab row
-      var tabRow = el('div', 'flex flex-wrap gap-2 mb-4');
+      var tabRow = el('div', 'flex flex-nowrap overflow-x-auto gap-2 mb-6');
       var tabs = section.clips.map(function (clip, i) {
         var btn = el('button', 'font-display text-xs uppercase tracking-widest px-4 py-2 transition-colors ' + (i === 0 ? 'bg-ink text-white' : 'border-2 border-ink text-ink hover:bg-ink/10'), escapeHtml(clip.title));
         btn.type = 'button';
