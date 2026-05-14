@@ -428,20 +428,20 @@ const TOPICS = [
       "images/unions.webp",
       "images/unions-images/Im backing luton A4.webp",
       "images/unions-images/Last union photo A3_01.webp",
-      "images/unions-images/manor park protest A1.webp",
-      "images/unions-images/vauxhall march A3.webp",
-      // "images/unions-images/G58DTJ.webp",   // Tony Harris via Alamy — add when file received
-      // "images/unions-images/G597H8.webp",   // Tony Harris via Alamy — add when file received
-      // "images/unions-images/G597H9.webp",   // Tony Harris via Alamy — add when file received
+      // "images/unions-images/manor park protest A1.webp",
+      // "images/unions-images/vauxhall march A3.webp",
+      "images/unions-images/G58DTJ.webp",   // Tony Harris via Alamy — add when file received
+      "images/unions-images/G597H8.webp",   // Tony Harris via Alamy — add when file received
+      "images/unions-images/G597H9.webp",   // Tony Harris via Alamy — add when file received
     ],
     credits: {
       "images/unions-images/Im backing luton A4.webp": "Bill Saul",
       "images/unions-images/Last union photo A3_01.webp": "Striking Places Photography",
-      "images/unions-images/manor park protest A1.webp": "Ray Rising via Report Digital",
-      "images/unions-images/vauxhall march A3.webp": "NLA via Report Digital",
-      // "images/unions-images/G58DTJ.webp": "Tony Harris via Alamy",
-      // "images/unions-images/G597H8.webp": "Tony Harris via Alamy",
-      // "images/unions-images/G597H9.webp": "Tony Harris via Alamy",
+      // "images/unions-images/manor park protest A1.webp": "Ray Rising via Report Digital",
+      // "images/unions-images/vauxhall march A3.webp": "NLA via Report Digital",
+      "images/unions-images/G58DTJ.webp": "Tony Harris via Alamy",
+      "images/unions-images/G597H8.webp": "Tony Harris via Alamy",
+      "images/unions-images/G597H9.webp": "Tony Harris via Alamy",
     },
     caption: "Trade unions played a key role in representing workers and shaping workplace life. Discover their influence at Vauxhall by clicking here.",
     description: 'Vauxhall was a closed shop, meaning employees were required to join a union. In its earlier years, the factory experienced few strikes and was often nicknamed "the turnip patch" in the industry. Union representatives, convenors, and shop stewards, all elected by the workforce, worked across the plants to act as a link between employees and management. They helped secure fair pay, improved working conditions and hours, negotiated pensions, and offered support during challenging times such as closures. Manor Park was a short walk away from the Kimpton Road factory. Seen as a neutral place, workers and trade union representatives met here to discuss concerns and vote on key decisions.',

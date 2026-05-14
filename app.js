@@ -180,7 +180,7 @@
   // Direct loads, sharing links, and browser back/forward all work without
   // any server-side config since GitHub Pages happily serves the static
   // index.html for the root path.
-  var PAGE_IDS = ['gallery', 'about', 'exhibition'];
+  var PAGE_IDS = ['gallery', 'about', 'exhibition', 'oral-histories'];
 
   function readHash() {
     return (window.location.hash || '').replace(/^#\/?/, '');
@@ -227,7 +227,8 @@
 
   function populateOverlay(topic, index) {
     var galleryEl = document.getElementById('overlay-gallery');
-    var images = (topic.gallery && topic.gallery.length) ? topic.gallery : [topic.image];
+    var filtered = (topic.gallery || []).filter(function (src) { return src !== topic.image; });
+    var images = filtered.length ? filtered : [topic.image];
     galleryEl.innerHTML = images.map(function (src, i) {
       var credit = topic.credits && topic.credits[src];
       return '<figure class="snap-start shrink-0 flex flex-col gap-1 m-0">' +
