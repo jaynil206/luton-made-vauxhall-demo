@@ -36,7 +36,6 @@ var ORAL_HISTORIES = [
       { title: "Ram J", src: "audio/ram-j.mp3"},
       { title: "Ram P", src: "audio/ram-p.mp3"},
       { title: "Tony", src: "audio/tony.mp3"},
-      { title: "Vincent", src: "audio/vincent.mp3"},
     ]
   },
   {

@@ -63,7 +63,7 @@
     <div class="fixed inset-0 pointer-events-none opacity-[0.04] z-50 mix-blend-multiply" style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E&quot;);"></div>
 
     <!-- Navigation -->
-    <nav class="sticky top-0 z-40 bg-luton-sky/95 backdrop-blur-sm border-b border-ink/20 px-8 py-4 overflow-x-auto no-scrollbar">
+    <nav class="sticky top-0 z-40 bg-luton-sky/95 backdrop-blur-sm border-b border-ink/20 px-2 py-4 overflow-x-auto no-scrollbar">
       <div class="max-w-7xl mx-auto">
         <!-- Mobile: logo centered, nav below. Desktop: single row, logo left, nav right. -->
         <div class="flex flex-col items-center gap-3 md:flex-row md:justify-between md:items-center md:gap-4">
@@ -71,11 +71,13 @@
             <img src="logos/Luton made vauxhall final logo.webp" alt="Luton Made: Vauxhall" class="w-9 h-9" loading="lazy" decoding="async" />
             <h1 class="hidden md:block text-2xl md:text-3xl font-display tracking-wide text-ink">LUTON MADE: <span class="text-luton-red">VAUXHALL</span></h1>
           </div>
-          <ul class="flex flex-nowrap items-center justify-between sm:justify-center gap-8 md:gap-6">
+          <ul class="flex flex-nowrap items-center gap-3 md:gap-6 overflow-x-auto no-scrollbar w-full md:w-auto">
             <li class="hidden md:block"><button type="button" class="nav-link font-display text-sm md:text-base uppercase tracking-widest whitespace-nowrap transition-colors hover:text-luton-red text-luton-red border-b-2 border-luton-red" data-page="gallery">Home</button></li>
-            <li aria-hidden="true" class="hidden sm:block"><img src="stickers/stickers-07.webp" alt="" class="h-6 w-auto pointer-events-none opacity-80" loading="lazy" decoding="async" /></li>
+            <li aria-hidden="true" class="block"><img src="stickers/stickers-07.webp" alt="" class="h-6 w-auto pointer-events-none opacity-80" loading="lazy" decoding="async" /></li>
             <li><button type="button" class="nav-link font-display text-sm md:text-base uppercase tracking-widest whitespace-nowrap transition-colors hover:text-luton-red text-ink/80" data-page="exhibition">Exhibition</button></li>
-            <li aria-hidden="true" class="hidden sm:block"><img src="stickers/stickers-13.webp" alt="" class="h-6 w-auto pointer-events-none opacity-80" loading="lazy" decoding="async" /></li>
+            <li aria-hidden="true" class="block"><img src="stickers/stickers-13.webp" alt="" class="h-6 w-auto pointer-events-none opacity-80" loading="lazy" decoding="async" /></li>
+            <li><button type="button" class="nav-link font-display text-sm md:text-base uppercase tracking-widest whitespace-nowrap transition-colors hover:text-luton-red text-ink/80" data-page="oral-histories">Oral Histories</button></li>
+            <li aria-hidden="true" class="block"><img src="stickers/stickers-07.webp" alt="" class="h-6 w-auto pointer-events-none opacity-80" loading="lazy" decoding="async" /></li>
             <li><button type="button" class="nav-link font-display text-sm md:text-base uppercase tracking-widest whitespace-nowrap transition-colors hover:text-luton-red text-ink/80" data-page="about">Get Involved</button></li>
           </ul>
         </div>
@@ -163,6 +165,24 @@
         <div class="max-w-5xl mx-auto px-6 py-16">
           <h2 class="font-display text-4xl md:text-5xl uppercase tracking-wide mb-12 border-b-4 border-luton-red inline-block pb-2">Exhibition</h2>
 
+          <!-- Exhibition info -->
+          <div class="bg-paper-white/80 border-2 border-luton-red shadow-lifted px-6 py-6 mb-16 flex flex-col gap-4">
+            <p class="font-sans text-base text-ink leading-relaxed">The <span class="font-display uppercase">Luton Made: Vauxhall</span> exhibition runs until <strong>Sunday 28th June</strong>.</p>
+            <div class="flex flex-col sm:flex-row gap-6 text-sm font-sans text-ink/80">
+              <div>
+                <p class="font-mono text-xs uppercase tracking-widest text-ink/50 mb-1">Opening Times</p>
+                <p>Wednesday – Sunday, 11am – 5pm</p>
+              </div>
+              <div>
+                <p class="font-mono text-xs uppercase tracking-widest text-ink/50 mb-1">Location</p>
+                <p>Stockwood Discovery Centre<br />London Road, Luton, LU1 4LX</p>
+              </div>
+            </div>
+            <a href="https://www.google.com/maps/search/Stockwood+Discovery+Centre,+London+Road,+Luton,+LU1+4LX" target="_blank" rel="noopener" class="inline-block self-start bg-luton-red hover:bg-luton-red-dark text-white px-5 py-2 uppercase tracking-widest text-xs font-display shadow-lifted transition-colors">
+              Get Directions
+            </a>
+          </div>
+
           <!-- Videos -->
           <div class="mb-16">
             <h3 class="font-display text-2xl uppercase tracking-wide mb-6 text-ink">Videos</h3>
@@ -218,16 +238,13 @@
             </div>
           </div>
 
-          <!-- Oral Histories -->
-          <div class="mb-16">
-            <h3 class="font-display text-2xl uppercase tracking-wide mb-6 text-ink">Oral Histories</h3>
-            <div id="oral-histories-container" class="flex flex-col gap-10"></div>
-          </div>
-
           <!-- Audio Guide -->
           <div class="mb-16">
             <h3 class="font-display text-2xl uppercase tracking-wide mb-4 text-ink">Audio Guide</h3>
-            <p class="text-base text-ink/60 italic">Coming soon — the audio guide will be available here.</p>
+            <p class="text-base text-ink/80 leading-relaxed mb-6">Listen to the audio guide for the exhibition.</p>
+            <a href="https://drive.google.com/drive/folders/15k1WhvRWZeF2cKZhr9BdsTKuNU9oK_2z?usp=sharing" target="_blank" rel="noopener" class="inline-block bg-luton-red hover:bg-luton-red-dark text-white px-6 py-3 uppercase tracking-widest text-sm font-display shadow-lifted transition-colors">
+              Open Audio Guide
+            </a>
           </div>
 
           <!-- Accessibility -->
@@ -247,6 +264,14 @@
               Download Creative Pack
             </a>
           </div>
+        </div>
+      </section>
+
+      <!-- Page: Oral Histories -->
+      <section id="page-oral-histories" class="page-section">
+        <div class="max-w-3xl mx-auto px-6 py-16">
+          <h2 class="font-display text-4xl md:text-5xl uppercase tracking-wide mb-12 border-b-4 border-luton-red inline-block pb-2">Oral Histories</h2>
+          <div id="oral-histories-container" class="flex flex-col gap-10"></div>
         </div>
       </section>
 
