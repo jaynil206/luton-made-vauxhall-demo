@@ -170,33 +170,45 @@
     updateProgressUI(audioEl.currentTime, audioEl.duration);
   }
 
-  // ------------------------------ hash routing ------------------------------
-  // Hash schema:
-  //   /              → home (gallery)
-  //   /#about        → Get Involved page
-  //   /#contact      → Contact page
-  //   /#<topic-id>   → topic overlay (rendered on top of the gallery)
+  // ------------------------------ path routing ------------------------------
+  // URL schema (clean paths via the History API):
+  //   /                → home (gallery)
+  //   /about           → Get Involved page
+  //   /exhibition      → Exhibition page
+  //   /oral-histories  → Oral Histories page
+  //   /<topic-id>      → topic overlay (rendered on top of the gallery)
   //
-  // Direct loads, sharing links, and browser back/forward all work without
-  // any server-side config since GitHub Pages happily serves the static
-  // index.html for the root path.
+  // GitHub Pages can't rewrite arbitrary paths to index.html on its own, so a
+  // 404.html at the repo root redirects unmatched paths back here (encoding
+  // the original path in the query string); the restore script at the top of
+  // index.html's <head> decodes that back into a clean URL before this file
+  // runs. See https://github.com/rafgraph/spa-github-pages.
   var PAGE_IDS = ['gallery', 'about', 'exhibition', 'oral-histories'];
 
-  function readHash() {
-    return (window.location.hash || '').replace(/^#\/?/, '');
+  function readPath() {
+    return decodeURIComponent(window.location.pathname).replace(/^\/|\/$/g, '');
   }
 
-  function setHashRoute(hash, replace) {
-    var url = window.location.pathname + window.location.search + (hash ? '#' + hash : '');
+  function setPathRoute(path, replace) {
+    var url = (path ? '/' + path : '/') + window.location.search;
     if (replace) history.replaceState(null, '', url);
     else         history.pushState(null, '', url);
   }
 
+  // Old shared links used /#exhibition, /#<topic-id>, etc. — if one lands
+  // here, rewrite it to the equivalent clean path before routing runs so
+  // existing bookmarks and posted links keep working.
+  function migrateLegacyHash() {
+    if (!window.location.hash) return;
+    var legacyPath = window.location.hash.replace(/^#\/?/, '');
+    history.replaceState(null, '', (legacyPath ? '/' + legacyPath : '/') + window.location.search);
+  }
+
   // Apply whatever the URL says — used on page load and when the user
-  // navigates via browser back/forward (which fires hashchange).
-  function applyHashState() {
-    var hash = readHash();
-    var topic = hash ? (TOPICS.find(function (t) { return t.id === hash; }) || null) : null;
+  // navigates via browser back/forward (which fires popstate).
+  function applyPathState() {
+    var path = readPath();
+    var topic = path ? (TOPICS.find(function (t) { return t.id === path; }) || null) : null;
     var overlayEl = document.getElementById('overlay');
 
     if (topic) {
@@ -217,8 +229,8 @@
       stopAudio();
     }
 
-    // Pick the page to show (fall back to gallery for empty/unknown hashes).
-    var page = (PAGE_IDS.indexOf(hash) !== -1) ? hash : 'gallery';
+    // Pick the page to show (fall back to gallery for empty/unknown paths).
+    var page = (PAGE_IDS.indexOf(path) !== -1) ? path : 'gallery';
     showPage(page);
   }
 
@@ -257,14 +269,14 @@
     currentTopicIndex = TOPICS.indexOf(topic);
     populateOverlay(topic, currentTopicIndex);
     document.getElementById('overlay').classList.add('open');
-    setHashRoute(topic.id, false); // push — back button closes the overlay
+    setPathRoute(topic.id, false); // push — back button closes the overlay
   }
 
   function closeOverlay() {
     document.getElementById('overlay').classList.remove('open');
     currentTopicIndex = -1;
     stopAudio();
-    setHashRoute('', true); // replace — clear hash without polluting history
+    setPathRoute('', true); // replace — clear path without polluting history
   }
 
   function stepOverlay(direction) {
@@ -272,7 +284,7 @@
     currentTopicIndex = (currentTopicIndex + direction + TOPICS.length) % TOPICS.length;
     var topic = TOPICS[currentTopicIndex];
     populateOverlay(topic, currentTopicIndex);
-    setHashRoute(topic.id, true); // replace — keeps history clean while paging
+    setPathRoute(topic.id, true); // replace — keeps history clean while paging
   }
 
   function navigateToPage(pageId) {
@@ -282,7 +294,7 @@
       stopAudio();
     }
     showPage(pageId);
-    setHashRoute(pageId === 'gallery' ? '' : pageId, false);
+    setPathRoute(pageId === 'gallery' ? '' : pageId, false);
   }
 
   // ------------------------------ page switching ------------------------------
@@ -357,6 +369,8 @@
     });
   }
 
+  // Newsletter signup logic lives in newsletter.js (shared with stayupdated.html).
+
   // ------------------------------ init ------------------------------
   function init() {
     var galleryGrid = document.getElementById('gallery-grid');
@@ -402,10 +416,11 @@
       progressTrack.addEventListener('click', seekFromEvent);
     }
 
-    // Hash routing: open the right overlay/page for the current URL on load,
+    // Path routing: open the right overlay/page for the current URL on load,
     // and respond to back/forward navigation.
-    window.addEventListener('hashchange', applyHashState);
-    applyHashState();
+    migrateLegacyHash();
+    window.addEventListener('popstate', applyPathState);
+    applyPathState();
   }
 
   if (document.readyState === 'loading') {
