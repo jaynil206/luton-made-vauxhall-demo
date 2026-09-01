@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Stay Updated — Luton Made: Vauxhall</title>
+    <link rel="stylesheet" href="https://use.typekit.net/uov8udm.css" />
+    <link rel="stylesheet" href="output.css" />
+  </head>
+  <body class="min-h-screen flex flex-col relative bg-luton-sky text-ink antialiased overflow-x-hidden selection:bg-luton-red selection:text-white font-sans text-base leading-relaxed">
+    <header class="px-6 py-6">
+      <a href="/" class="inline-flex items-center gap-2">
+        <img src="logos/Luton made vauxhall final logo.webp" alt="Luton Made: Vauxhall" class="w-9 h-9" loading="lazy" decoding="async" />
+        <span class="text-xl font-display tracking-wide text-ink">LUTON MADE: <span class="text-luton-red">VAUXHALL</span></span>
+      </a>
+    </header>
+
+    <main class="flex-grow flex items-center">
+      <div class="w-full bg-luton-red">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+          <h3 class="font-display text-3xl md:text-4xl uppercase tracking-wide text-white mb-3">Subscribe to stay updated</h3>
+          <p class="text-base md:text-lg text-white/90 font-sans mb-8 max-w-2xl">Subscribe to receive regular updates about exciting news on Luton Made.</p>
+
+          <form id="newsletter-form" class="flex flex-col gap-6" novalidate>
+            <div class="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-4 md:items-end">
+              <label class="flex flex-col gap-2">
+                <span class="font-sans text-sm text-white">First Name</span>
+                <input type="text" name="firstName" id="newsletter-name" required autocomplete="given-name" class="border-2 border-transparent focus:border-ink outline-none px-3 h-12 bg-white font-sans text-base text-ink" />
+              </label>
+              <label class="flex flex-col gap-2">
+                <span class="font-sans text-sm text-white">Email address</span>
+                <input type="email" name="email" id="newsletter-email" required autocomplete="email" class="border-2 border-transparent focus:border-ink outline-none px-3 h-12 bg-white font-sans text-base text-ink" />
+              </label>
+              <button type="submit" class="bg-white border-2 border-transparent text-luton-red hover:underline px-8 h-12 flex items-center justify-center uppercase tracking-widest text-sm font-display shadow-lifted transition-colors whitespace-nowrap">Submit</button>
+            </div>
+
+            <label class="flex items-start gap-3 text-base text-white/90 font-sans cursor-pointer">
+              <input type="checkbox" name="consent" id="newsletter-consent" required class="w-6 h-6 shrink-0 accent-luton-red border-2 border-white rounded-none bg-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-luton-red" />
+              <span>I agree to receive your newsletters and accept the <a href="https://www.luton.gov.uk/council-elections/finance-data-performance/data-protection-privacy-information-requests" target="_blank" rel="noopener" class="underline hover:text-white">privacy policy</a></span>
+            </label>
+
+            <p id="newsletter-status" class="text-sm font-sans text-white hidden" role="status"></p>
+          </form>
+
+          <div id="newsletter-success" class="hidden items-start gap-4" role="status">
+            <div class="shrink-0 w-10 h-10 rounded-full bg-white text-luton-red flex items-center justify-center">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div>
+              <p class="font-display text-xl uppercase tracking-wide text-white mb-1">Thanks for subscribing!</p>
+              <p class="text-white/90 font-sans text-base">We'll be in touch with updates about Luton Made.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Funder / partner logos -->
+    <div class="bg-luton-sky-dark/50 py-10">
+      <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-6 flex-wrap justify-center">
+          <img src="logos/heritage.webp" alt="National Lottery Heritage Fund" class="h-14" loading="lazy" decoding="async" />
+          <img src="logos/The-Culture-Trust-Logo.webp" alt="The Culture Trust" class="h-10" loading="lazy" decoding="async" />
+          <img src="logos/Luton.webp" alt="Luton Council" class="h-10" loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </div>
+
+    <script src="newsletter.js"></script>
+  </body>
+</html>
